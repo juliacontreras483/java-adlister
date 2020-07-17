@@ -23,14 +23,14 @@
 <h3>What would you like to do?</h3>
 
 <h3>View Your Profile</h3>
-<form action="/user-profile.jsp" method="get">
-    <input type="hidden" id="username" name="username" value="Sophie">
-    <input type="hidden" id="lastname" name="lastname" value="Kurihara">
+<form action="user-profile.jsp" method="get">
+    <input type="hidden" id="username" name="username" value="Julia">
+    <input type="hidden" id="lastname" name="lastname" value="Contreras">
     <button type="submit">Go There</button>
 </form>
 
 <h3>Add a To Do</h3>
-<form action="/todo.jsp" method="post">
+<form action="todo.jsp" method="post">
     <input type="text" id="item" name="item">
     <button type="submit">Add to List</button>
 </form>
