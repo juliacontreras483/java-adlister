@@ -5,11 +5,13 @@
     <title><%= "some title" %></title>
 </head>
 <body>
-    <c:if test="true">
-        <h1>Variable names should be very descriptive</h1>
-    </c:if>
-    <c:if test="false">
-        <h1>single letter variable names are good</h1>
-    </c:if>
+<c:if test="true">
+    <h1>Variable names should be very descriptive</h1>
+</c:if>
+<c:if test="false">
+    <h1>single letter variable names are good</h1>
+</c:if>
+<%-- this is a JSP comment, you will *not* see this in the html --%>
+<!-- this is an HTML comment -->
 </body>
 </html>
