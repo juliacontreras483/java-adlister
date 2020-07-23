@@ -10,4 +10,8 @@ public class DaoFactory {
         }
         return adsDao;
     }
+
+    public static Users getUserDao() {
+        return null;
+    }
 }
