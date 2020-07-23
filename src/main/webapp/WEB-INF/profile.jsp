@@ -6,11 +6,10 @@
     </jsp:include>
 </head>
 <body>
-<jsp:include page="partials/navbar.jsp" />
+<jsp:include page="/WEB-INF/partials/navbar.jsp" />
 
 <div class="container">
-    <h1>Welcome, ${sessionScope.username}, to your profile page!</h1>
+    <h1>Welcome, ${sessionScope.user}!</h1>
 </div>
-
 </body>
 </html>
