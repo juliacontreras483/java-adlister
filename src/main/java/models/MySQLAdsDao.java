@@ -1,24 +1,21 @@
-package dao;
-
+package models;
 import com.mysql.cj.jdbc.Driver;
-import models.Ad;
-
+import controllers.Config;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLAdsDao implements Ads {
 
-    private Connection conn;
+    private Connection connection;
 
     public MySQLAdsDao(Config config) {
         try {
             DriverManager.registerDriver(new Driver());
-            this.conn = DriverManager.getConnection(
+            this.connection = DriverManager.getConnection(
                     config.getUrl(),
-                    config.getUser(),
-                    config.getPassword()
-            );
+                    config.getUsername(),
+                    config.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -26,18 +23,23 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public List<Ad> all() {
+        //Array list to store ads into
         List<Ad> ads = new ArrayList<>();
-        String selectAds = "SELECT id, user_id, title, description FROM ads";
+        //Query that will get all ads from ads table in adlister_db
+        String selectAds = "SELECT * FROM ads";
         try {
-            Statement stmt = conn.createStatement();
+            //creating statement instance
+            Statement stmt = connection.createStatement();
+            //executing statement and storing in result set
             ResultSet rs = stmt.executeQuery(selectAds);
-            while(rs.next()) {
+            //while rs.next is true (returns true until there are now more rows to go through) a new ad will be created
+            while (rs.next()) {
                 ads.add(new Ad(
                         rs.getLong("id"),
                         rs.getLong("user_id"),
                         rs.getString("title"),
-                        rs.getString("description")
-                ));
+                        rs.getString("description"))
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,29 +49,31 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public Long insert(Ad ad) {
-        long lastInsertedId = 0;
-        String insertQuery = String.format(
-                "INSERT INTO ads (user_id, title, description) VALUES (%d, '%s', '%s')",
+        long lastInsertedAdId = 0;
+        String insertQuery = String.format("INSERT INTO ads (user_id, title, description) VALUES (%d,'%s','%s')",
                 ad.getUserId(),
                 ad.getTitle(),
-                ad.getDescription());
+                ad.getDescription()
+        );
+
         try {
-            Statement stmt = conn.createStatement();
+            Statement stmt = connection.createStatement();
             stmt.executeUpdate(insertQuery, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                lastInsertedId = rs.getLong(1);
+                lastInsertedAdId = rs.getLong(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return lastInsertedId;
+        return lastInsertedAdId;
     }
 
-//    public static void main(String[] args) {
-//        Ads adsDao = new MySQLAdsDao(new Config());
-////        System.out.println(adsDao.all());
-//        Ad testAd = new Ad(1,"Test ad title", "Test ad description");
-//        System.out.println(adsDao.insert(testAd)); // 6
-//    }
+    public static void main(String[] args){
+        MySQLAdsDao adsDao = new MySQLAdsDao(new Config());
+//        System.out.println(adsDao.all());
+        Ad testAd = new Ad(1, "test ad title", "test ad description");
+        System.out.println(adsDao.insert(testAd)); //shows a new add number 6
+    }
+
 }

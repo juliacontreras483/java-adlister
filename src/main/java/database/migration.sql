@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS adlister_db;
 
-CREATE USER 'adlister_db_user'@'localhost' IDENTIFIED BY 'access';
-GRANT ALL ON adlister_db.* TO 'adlister_db_user'@'localhost';
+CREATE USER 'adtest'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL ON adlister_db.* TO 'adtest'@'localhost';
 
 USE adlister_db;
 
@@ -22,3 +22,6 @@ CREATE TABLE ads (
                      description TEXT,
                      FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+# foreign key (user id ) reference users table (id)
+
